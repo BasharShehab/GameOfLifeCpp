@@ -2,6 +2,7 @@
 #include <algorithm>
 using namespace std;
 #include<unistd.h>
+#include <math.h>
 unsigned int microsecond = 1000000;
 
 // 1.Any live cell with fewer than two live neighbours dies, as if caused by under-population.
@@ -12,13 +13,13 @@ unsigned int microsecond = 1000000;
 
 // 4.Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 
-const int x = 10, y = 10;
+const int x = 30, y = 30;
 
 string grid[x][y]= {};
 
-bool inBounds(int x, int y){
+bool inBounds(int xcoo, int ycoo){
 	// just checks if inside grid
-	return (( x >= 0 && x < 10) && (y >= 0 && y < 8));
+	return (( xcoo >= 0 && xcoo < x) && (ycoo >= 0 && ycoo < y));
 }
 int checkCell(int x, int y){
 	//checks neighboring cells
@@ -55,29 +56,41 @@ void resCell(int x, int y) {
 	}
 }
 void initialiseGrid() {
+  int counter = 0;
 	//starts the grid
+  srand(time(0));
+  int rangex = rand() % 10;
+  int rangey= rand() % 10;
 	for (int i = 0; i<x ; i++) {
 		for (int j = 0 ; j < y ; j++) {
 			grid[i][j] = "_";
 		}
 	}
 
+  for (int i = 0 ; i < x ; i++){
+    for (int j = 0; j < y; j++){
+      int randox = rand() % 10;
+      int randoy = rand() %10;
+      if(inBounds(randox, randoy))
+      grid[randox][randoy] = "\u25A0";
+    }
+  }
 	// starting the starting pattern by myself
 	// instead of user input cuz im a lazy bloke
 	
-	grid[1][1] =  "\u25A0";
-	grid[1][2] =  "\u25A0";
-	grid[1][3] =  "\u25A0";
-	grid[1][5] =  "\u25A0";
-	grid[2][1] =  "\u25A0";
-	grid[3][4] =  "\u25A0";
-	grid[3][5] =  "\u25A0";
-	grid[4][2] =  "\u25A0";
-	grid[4][3] =  "\u25A0";
-	grid[4][5] =  "\u25A0";
-	grid[5][1] =  "\u25A0";
-	grid[5][3] =  "\u25A0";
-	grid[5][5] =  "\u25A0";
+	// grid[1][1] =  "\u25A0";
+	// grid[1][2] =  "\u25A0";
+	// grid[1][3] =  "\u25A0";
+	// grid[1][5] =  "\u25A0";
+	// grid[2][1] =  "\u25A0";
+	// grid[3][4] =  "\u25A0";
+	// grid[3][5] =  "\u25A0";
+	// grid[4][2] =  "\u25A0";
+	// grid[4][3] =  "\u25A0";
+	// grid[4][5] =  "\u25A0";
+	// grid[5][1] =  "\u25A0";
+	// grid[5][3] =  "\u25A0";
+	// grid[5][5] =  "\u25A0";
 }
 
 void printGrid(){
@@ -101,10 +114,11 @@ int main()
 	initialiseGrid();
 	printGrid();
 
-	cout << " 1.Any live cell with fewer than two live neighbours dies, as if caused by under-population. /n/n 2.Any live cell with two or three live neighbours lives on to the next generation./n/n 3.Any live cell with more than three live neighbours dies, as if by over-population./n/n 4.Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.";
+	cout << " 1.Any live cell with fewer than two live neighbours dies, as if caused by under-population. \n\n 2.Any live cell with two or three live neighbours lives on to the next generation.\n\n 3.Any live cell with more than three live neighbours dies, as if by over-population.\n\n 4.Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction. \n\n";
 	while (true) {
 		
 		printGrid();
-		usleep(microsecond/10); //sleeps for 3 second
+		usleep(microsecond/5); //sleeps for 3 second
 	}
+
 }
