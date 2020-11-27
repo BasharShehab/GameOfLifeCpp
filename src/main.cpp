@@ -30,7 +30,7 @@ int live_cell_count = 0;
     	{
         	if (!(i == 0 && j == 0) &&
 			 inBounds(x+i,y+j) &&
-			  grid[x+i][y+j] ==  "\u25A0")
+			  grid[x+i][y+j] ==  "\u2B1B")
               	live_cell_count++;
     	}
 	}
@@ -38,7 +38,7 @@ int live_cell_count = 0;
 }
 bool isAlive(int x, int y){
 	//self explainatory
-	if (grid[x][y] ==  "\u25A0") {
+	if (grid[x][y] ==  "\u2B1B") {
 		return true;
 	}
 	return false;
@@ -46,13 +46,13 @@ bool isAlive(int x, int y){
 void killCell(int x, int y){
 	//self explainatory
 	if (isAlive(x,y)) {
-		grid[x][y] = "_";
+		grid[x][y] = "\u2B1C";
 	}
 }
 void resCell(int x, int y) {
 	// resurrects cell if dead.
 	if (isAlive(x,y) == false){
-		grid[x][y] =  "\u25A0";
+		grid[x][y] =  "\u2B1B";
 	}
 }
 void initialiseGrid() {
@@ -63,7 +63,7 @@ void initialiseGrid() {
   int rangey= rand() % 10;
 	for (int i = 0; i<x ; i++) {
 		for (int j = 0 ; j < y ; j++) {
-			grid[i][j] = "_";
+			grid[i][j] = "\u2B1C";
 		}
 	}
 
@@ -72,7 +72,7 @@ void initialiseGrid() {
       int randox = rand() % 10;
       int randoy = rand() %10;
       if(inBounds(randox, randoy))
-      grid[randox][randoy] = "\u25A0";
+      grid[randox][randoy] = "\u2B1B";
     }
   }
 	// starting the starting pattern by myself
@@ -118,7 +118,7 @@ int main()
 	while (true) {
 		
 		printGrid();
-		usleep(microsecond/5); //sleeps for 3 second
+		usleep(microsecond/10); //sleeps for 3 second
 	}
 
 }
