@@ -68,7 +68,7 @@ void initialiseGrid() {
 		}
 	}
 	// populate some cells randomly
-    while(counter < (x * y) / 10 ){
+    while(counter < (x * y) / 5 ){
 		// for (int i = 0 ; i < x * y ; i++){
         int randox = rand() % x;
         int randoy = rand() % y;
