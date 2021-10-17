@@ -16,7 +16,9 @@ unsigned int microsecond = 1000000;
 const int x = 30, y = 30;
 
 string grid[x][y]= {};
-
+string alive = "\u2B1B";
+// string alive = "\u1F7E5";
+string dead = "\u2B1C";
 bool inBounds(int xcoo, int ycoo){
 	// just checks if inside grid
 	return (( xcoo >= 0 && xcoo < x) && (ycoo >= 0 && ycoo < y));
@@ -30,7 +32,7 @@ int live_cell_count = 0;
     	{
         	if (!(i == 0 && j == 0) &&
 			 inBounds(x+i,y+j) &&
-			  grid[x+i][y+j] ==  "\u2B1B")
+			  grid[x+i][y+j] ==  alive)
               	live_cell_count++;
     	}
 	}
@@ -38,7 +40,7 @@ int live_cell_count = 0;
 }
 bool isAlive(int x, int y){
 	//self explainatory
-	if (grid[x][y] ==  "\u2B1B") {
+	if (grid[x][y] ==  alive) {
 		return true;
 	}
 	return false;
@@ -46,51 +48,36 @@ bool isAlive(int x, int y){
 void killCell(int x, int y){
 	//self explainatory
 	if (isAlive(x,y)) {
-		grid[x][y] = "\u2B1C";
+		grid[x][y] = dead;
 	}
 }
 void resCell(int x, int y) {
 	// resurrects cell if dead.
 	if (isAlive(x,y) == false){
-		grid[x][y] =  "\u2B1B";
+		grid[x][y] =  alive;
 	}
 }
 void initialiseGrid() {
-  int counter = 0;
-	//starts the grid
-  srand(time(0));
-  int rangex = rand() % 10;
-  int rangey= rand() % 10;
-	for (int i = 0; i<x ; i++) {
+    //starts the grid
+	int counter = 0;
+    srand(time(0));
+	// fill it all with dead cells first
+	for (int i = 0; i < x ; i++) {
 		for (int j = 0 ; j < y ; j++) {
-			grid[i][j] = "\u2B1C";
+			grid[i][j] = dead;
 		}
 	}
-
-  for (int i = 0 ; i < x ; i++){
-    for (int j = 0; j < y; j++){
-      int randox = rand() % 10;
-      int randoy = rand() %10;
-      if(inBounds(randox, randoy))
-      grid[randox][randoy] = "\u2B1B";
-    }
-  }
-	// starting the starting pattern by myself
-	// instead of user input cuz im a lazy bloke
-	
-	// grid[1][1] =  "\u25A0";
-	// grid[1][2] =  "\u25A0";
-	// grid[1][3] =  "\u25A0";
-	// grid[1][5] =  "\u25A0";
-	// grid[2][1] =  "\u25A0";
-	// grid[3][4] =  "\u25A0";
-	// grid[3][5] =  "\u25A0";
-	// grid[4][2] =  "\u25A0";
-	// grid[4][3] =  "\u25A0";
-	// grid[4][5] =  "\u25A0";
-	// grid[5][1] =  "\u25A0";
-	// grid[5][3] =  "\u25A0";
-	// grid[5][5] =  "\u25A0";
+	// populate some cells randomly
+    while(counter < (x * y) / 10 ){
+		// for (int i = 0 ; i < x * y ; i++){
+        int randox = rand() % x;
+        int randoy = rand() % y;
+        if(inBounds(randox, randoy))
+      	    grid[randox][randoy] = alive;
+	    counter++;
+	//   cout << randox << endl << randoy << endl;
+//   }
+	}
 }
 
 void printGrid(){
@@ -116,9 +103,9 @@ int main()
 
 	cout << " 1.Any live cell with fewer than two live neighbours dies, as if caused by under-population. \n\n 2.Any live cell with two or three live neighbours lives on to the next generation.\n\n 3.Any live cell with more than three live neighbours dies, as if by over-population.\n\n 4.Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction. \n\n";
 	while (true) {
-		
+
 		printGrid();
-		usleep(microsecond/10); //sleeps for 3 second
+		usleep(microsecond/5); //sleeps period
 	}
 
 }
